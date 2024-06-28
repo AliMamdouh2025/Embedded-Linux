@@ -1,0 +1,172 @@
+@startuml inline_umlgraph_1.png
+start
+:Disable global interrupt;
+:Wait for completion of previous write;
+:Set up address and read registers;
+:reading data;
+:Enable Global Interrupts;
+#green:return data from EEPROM;
+end
+@enduml
+@startuml inline_umlgraph_2.png
+robust "EEPROM" as EEPROM
+concise "Function" as Func
+
+Func is Cannot_Read
+EEPROM is Block_Access
+
+@Func
+0 is EnRead
+Func -> EEPROM : SET_EEME  
++4 is Cannot_Read
+
+@EEPROM
+0 is Allow_Access
++4 is Block_Access
+@enduml
+@startuml inline_umlgraph_3.png
+start
+:Disable global interrupt;
+:Polling for completion of previous write;
+:Polling for completion of bootloader operations(based on Configration);
+:Set up address register;
+:ُEnable Reading access;
+:Read from EEPROM;
+ if (check if value is repeated or not?) then (Yes)
+ #green:Return from function;
+end
+ else (no)
+:ُEnable Writing access; 
+:Write data to EEPROM;
+#green:Enable Global Interrupts;
+endif
+end
+@enduml
+@startuml inline_umlgraph_4.png
+"EEPROM_write\nFunction" -> "CLEAR_BIT\nMacro": SREG Register and bit7  to be cleared Request
+"CLEAR_BIT\nMacro" -[#0000FF]-> "EEPROM_write\nFunction": Clearing SREG bit7 Response 
+
+== EEPROM_UPPDATE_OPTIMIZER_ENABLED ==
+
+"EEPROM_write\nFunction" -> "SET_BIT\nMacro": EECR Register and EERE bit to be set Request
+"SET_BIT\nMacro" -[#0000FF]-> "EEPROM_write\nFunction": Setting EERE bit Response
+@enduml
+@startuml inline_umlgraph_5.png
+robust "EEPROM" as EEPROM
+concise "Function" as Func
+
+Func is Cannot_Write
+EEPROM is Block_Access
+
+@Func
+0 is EnWrite
+Func -> EEPROM : SET_EEME  
++4 is Cannot_Write
+
+@EEPROM
+0 is Allow_Access
++4 is Block_Access
+@enduml
+@startuml inline_umlgraph_6.png
+start
+:Enable or disable EEPROM interrupt(based on configration);
+end
+@enduml
+@startuml inline_umlgraph_7.png
+  start
+ :Take major version;
+ :Take minor version;
+end
+@enduml
+@startuml inline_umlgraph_8.png
+MADC_VidGetSWVersion_function -> MADC_private_file: MADC_SW_MAJOR_VERSION Enumerator value Request
+MADC_private_file --> MADC_VidGetSWVersion_function: MADC_SW_MAJOR_VERSION Enumerator value Response
+MADC_VidGetSWVersion_function -> MADC_private_file: MADC_SW_MINOR_VERSION Enumerator value Request
+MADC_private_file --> MADC_VidGetSWVersion_function: MADC_SW_MINOR_VERSION Enumerator value Response
+@enduml
+@startuml inline_umlgraph_9.png
+start
+:Disable global interrupt;
+:Wait for completion of previous write;
+:Set up address and read registers;
+:reading data;
+:Enable Global Interrupts;
+#green:return data from EEPROM;
+end
+@enduml
+@startuml inline_umlgraph_10.png
+robust "EEPROM" as EEPROM
+concise "Function" as Func
+
+Func is Cannot_Read
+EEPROM is Block_Access
+
+@Func
+0 is EnRead
+Func -> EEPROM : SET_EEME  
++4 is Cannot_Read
+
+@EEPROM
+0 is Allow_Access
++4 is Block_Access
+@enduml
+@startuml inline_umlgraph_11.png
+start
+:Disable global interrupt;
+:Polling for completion of previous write;
+:Polling for completion of bootloader operations(based on Configration);
+:Set up address register;
+:ُEnable Reading access;
+:Read from EEPROM;
+ if (check if value is repeated or not?) then (Yes)
+ #green:Return from function;
+end
+ else (no)
+:ُEnable Writing access; 
+:Write data to EEPROM;
+#green:Enable Global Interrupts;
+endif
+end
+@enduml
+@startuml inline_umlgraph_12.png
+"EEPROM_write\nFunction" -> "CLEAR_BIT\nMacro": SREG Register and bit7  to be cleared Request
+"CLEAR_BIT\nMacro" -[#0000FF]-> "EEPROM_write\nFunction": Clearing SREG bit7 Response 
+
+== EEPROM_UPPDATE_OPTIMIZER_ENABLED ==
+
+"EEPROM_write\nFunction" -> "SET_BIT\nMacro": EECR Register and EERE bit to be set Request
+"SET_BIT\nMacro" -[#0000FF]-> "EEPROM_write\nFunction": Setting EERE bit Response
+@enduml
+@startuml inline_umlgraph_13.png
+robust "EEPROM" as EEPROM
+concise "Function" as Func
+
+Func is Cannot_Write
+EEPROM is Block_Access
+
+@Func
+0 is EnWrite
+Func -> EEPROM : SET_EEME  
++4 is Cannot_Write
+
+@EEPROM
+0 is Allow_Access
++4 is Block_Access
+@enduml
+@startuml inline_umlgraph_14.png
+start
+:Enable or disable EEPROM interrupt(based on configration);
+end
+@enduml
+@startuml inline_umlgraph_15.png
+  start
+ :Take major version;
+ :Take minor version;
+end
+@enduml
+@startuml inline_umlgraph_16.png
+MADC_VidGetSWVersion_function -> MADC_private_file: MADC_SW_MAJOR_VERSION Enumerator value Request
+MADC_private_file --> MADC_VidGetSWVersion_function: MADC_SW_MAJOR_VERSION Enumerator value Response
+MADC_VidGetSWVersion_function -> MADC_private_file: MADC_SW_MINOR_VERSION Enumerator value Request
+MADC_private_file --> MADC_VidGetSWVersion_function: MADC_SW_MINOR_VERSION Enumerator value Response
+@enduml
