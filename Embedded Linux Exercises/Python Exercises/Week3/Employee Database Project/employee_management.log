@@ -1,0 +1,7 @@
+2024-06-27 21:47:17,846 - INFO - Database initialized with initial data
+2024-06-27 21:47:39,951 - INFO - Deleted employee with ID: 2
+2024-06-27 21:48:13,671 - INFO - Updated employee: ['2', 'Omar Marzouk', 'Digital Designer', '40000']
+2024-06-27 22:00:58,054 - INFO - Database initialized with initial data
+2024-06-27 22:01:06,660 - INFO - Deleted employee with ID: 2
+2024-06-27 22:01:19,660 - INFO - Added employee: [3, 'Ali', 'Engineer', 40000]
+2024-06-27 22:01:40,703 - INFO - Updated employee: ['2', 'Omar Marzouk', 'Digital Designer', '40000']
