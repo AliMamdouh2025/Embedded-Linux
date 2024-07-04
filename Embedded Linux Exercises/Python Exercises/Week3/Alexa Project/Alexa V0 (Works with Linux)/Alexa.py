@@ -69,6 +69,11 @@ class GttsTTS(TextToSpeech):
         os.remove(audio)  # Deletes the audio file after playing.
 
 
+
+
+
+
+
 # The SpeechRecognizer class is responsible for capturing and processing spoken commands using the speech_recognition library.
 class SpeechRecognizer:
     def __init__(self):
@@ -100,6 +105,11 @@ class SpeechRecognizer:
         except sr.RequestError as e:
             print(f"Speech recognition request failed: {e}")
         return command  # Returns the recognized command.
+
+
+
+
+
 
 
 # The CommandExecutor class is responsible for interpreting and executing various voice commands using a text-to-speech (TTS) engine.
