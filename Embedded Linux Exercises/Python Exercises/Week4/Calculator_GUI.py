@@ -1,107 +1,87 @@
-import tkinter as tk #This imports the Tkinter module, which is used for creating GUI applications. It's aliased as tk for convenience.
-from tkinter import messagebox #This imports the messagebox module from Tkinter, which is used to display message boxes (like error messages) to the user.
+import tkinter as tk
 
-def create_main_window():
+def validate_and_get_inputs():
     """
-    Create and return the main application window.
+    Validate the input values to ensure they are integers.
+    Returns the values as integers if valid, otherwise returns None.
     """
-    root = tk.Tk()
-    root.title("Sum Calculator")
-    return root
+    op1 = entry1.get()  # Get the value from the first entry widget
+    op2 = entry2.get()  # Get the value from the second entry widget
 
-def create_label(parent, text, row, column, padx = 10, pady = 10):
+    # Check if both inputs are valid integers
+    if not op1.isdigit() or not op2.isdigit():
+        label_result.config(text="Please enter valid integers.")  # Update the result label with an error message
+        return None, None  # Return None if inputs are invalid
+
+    return int(op1), int(op2)  # Return the integer values of the inputs
+
+def perform_operation(op1, op2):
     """
-    Create and place a label in the specified parent widget.
-
-    Args:
-    parent: The parent widget.
-    text: The text to display on the label.
-    row: The row in the grid where the label should be placed.
-    column: The column in the grid where the label should be placed.
-    padx: Padding along the x-axis (default is 10).
-    pady: Padding along the y-axis (default is 10).
+    Perform the selected operation (addition or subtraction) based on the radio button value.
+    Returns the result as a string.
     """
-    label = tk.Label(parent, text = text)
-    label.grid(row = row, column = column, padx = padx, pady = pady)
-    return label
+    if v3.get() == 1:
+        # Subtraction operation
+        result = op1 - op2  # Calculate the difference between op1 and op2
+        return f'The subtraction is: {op1} - {op2} = {result}'  # Return the formatted result string
+    elif v3.get() == 2:
+        # Addition operation
+        result = op1 + op2  # Calculate the sum of op1 and op2
+        return f'The sum is: {op1} + {op2} = {result}'  # Return the formatted result string
 
-def create_entry(parent, row, column, padx = 10, pady = 10):
+def calculate_func():
     """
-    Create and place an entry widget in the specified parent widget.
-
-    Args:
-    parent: The parent widget.
-    row: The row in the grid where the entry should be placed.
-    column: The column in the grid where the entry should be placed.
-    padx: Padding along the x-axis (default is 10).
-    pady: Padding along the y-axis (default is 10).
+    Main function to retrieve inputs, validate them, perform the selected operation,
+    and update the result label with the calculated result.
     """
-    entry = tk.Entry(parent)
-    entry.grid(row = row, column = column, padx = padx, pady = pady)
-    return entry
+    op1, op2 = validate_and_get_inputs()  # Validate inputs and get the integer values
+    if op1 is None or op2 is None:
+        return  # Exit the function if inputs are invalid
 
-def create_button(parent, text, command, row, column, columnspan = 1, pady = 10):
+    result_text = perform_operation(op1, op2)  # Perform the selected operation
+    label_result.config(text=result_text)  # Update the result label with the calculated result
+
+def create_widgets(root):
     """
-    Create and place a button in the specified parent widget.
-
-    Args:
-    parent: The parent widget.
-    text: The text to display on the button.
-    command: The function to call when the button is clicked.
-    row: The row in the grid where the button should be placed.
-    column: The column in the grid where the button should be placed.
-    columnspan: The number of columns the button should span (default is 1).
-    pady: Padding along the y-axis (default is 10).
+    Function to create and place all the widgets in the main window.
     """
-    button = tk.Button(parent, text = text, command = command)
-    button.grid(row = row, column = column, columnspan = columnspan, pady = pady)
-    return button
+    # Create and place the label and entry widget for the first input value (X)
+    tk.Label(root, text='Enter the value of X:').grid(row=0, column=0, padx=10, pady=5, sticky="w")
+    global entry1
+    entry1 = tk.Entry(root, width=20)  # Create an entry widget for the first input value
+    entry1.grid(row=0, column=1, padx=10, pady=5)  # Place the entry widget in the grid
 
-def create_result_label(parent, row, column, columnspan = 1, pady = 10):
+    # Create and place the label and entry widget for the second input value (Y)
+    tk.Label(root, text='Enter the value of Y:').grid(row=1, column=0, padx=10, pady=5, sticky="w")
+    global entry2
+    entry2 = tk.Entry(root, width=20)  # Create an entry widget for the second input value
+    entry2.grid(row=1, column=1, padx=10, pady=5)  # Place the entry widget in the grid
+
+    # Create and place the radio buttons for selecting the operation (subtraction or addition)
+    global v3
+    v3 = tk.IntVar()  # Variable to hold the value of the selected radio button
+    tk.Radiobutton(root, text='Subtraction', variable=v3, value=1).grid(row=2, column=0, padx=10, pady=5, sticky="w")
+    tk.Radiobutton(root, text='Addition', variable=v3, value=2).grid(row=2, column=1, padx=10, pady=5, sticky="w")
+
+    # Create and place the button to trigger the calculation
+    tk.Button(root, text="Calculate", command=calculate_func).grid(row=3, column=0, columnspan=2, pady=10)
+
+    # Create and place the label to display the result of the calculation
+    global label_result
+    label_result = tk.Label(root, text='', fg='blue')  # Initialize with an empty text and set the text color to blue
+    label_result.grid(row=4, column=0, columnspan=2, pady=10)  # Place the label in the grid
+
+def main():
     """
-    Create and place a result label in the specified parent widget.
-
-    Args:
-    parent: The parent widget.
-    row: The row in the grid where the label should be placed.
-    column: The column in the grid where the label should be placed.
-    columnspan: The number of columns the label should span (default is 1).
-    pady: Padding along the y-axis (default is 10).
+    Main function to initialize the tkinter application and create widgets.
     """
-    label = tk.Label(parent, text = "Sum is not entered yet ")
-    label.grid(row = row, column = column, columnspan = columnspan, pady = pady)
-    return label
+    root = tk.Tk()  # Create the main window
+    root.geometry("400x200")  # Set the size of the window to 400x200 pixels
+    root.title("Sum and Subtraction Calculator")  # Set the title of the window
 
-def calculate_sum(entry1, entry2, result_label):
-    """
-    Calculate the sum of the integers entered in the two entry widgets and display the result.
+    create_widgets(root)  # Create and place the widgets
 
-    Args:
-    entry1: The first entry widget.
-    entry2: The second entry widget.
-    result_label: The label to display the result.
-    """
-    try:
-        num1 = int(entry1.get())  # Get the first integer from entry1
-        num2 = int(entry2.get())  # Get the second integer from entry2
-        total = num1 + num2       # Calculate the sum of num1 and num2
-        result_label.config(text=f"Sum is: {total}")  # Update the result label with the sum
-    except ValueError:
-        messagebox.showerror("Invalid input", "Please enter valid integers")  # Show error if input is invalid
+    root.mainloop()  # Start the main event loop to run the tkinter application
 
-# Main application setup
-root = create_main_window()
-
-# Create and place widgets in the main window
-label1 = create_label(root, "Enter first integer:", 0, 0)
-entry1 = create_entry(root, 0, 1)
-
-label2 = create_label(root, "Enter second integer:", 1, 0)
-entry2 = create_entry(root, 1, 1)
-
-calculate_button = create_button(root, "Calculate", lambda: calculate_sum(entry1, entry2, result_label), 2, 0, columnspan = 2)
-
-result_label = create_result_label(root, 3, 0, columnspan = 2)
-
-# Run the main event loop
-root.mainloop()
+if __name__ == "__main__":
+    main()  # Execute the main function if this script is run directly
