@@ -10,6 +10,9 @@ from abc import ABC, abstractmethod  # For creating abstract base classes
 import pygame  # For audio playback
 import pyautogui  # For GUI automation
 import time  # For adding delays
+import requests
+import config
+
 
 
 
@@ -71,6 +74,9 @@ class SpeechRecognizer:
             print(f"Speech recognition request failed: {e}")
         return command
 
+
+
+
 def locate(image, x_shift=0, y_shift=0, is_clicked=False, max_attempts=5):
     """
     Locate an image on the screen and optionally click it.
@@ -86,15 +92,40 @@ def locate(image, x_shift=0, y_shift=0, is_clicked=False, max_attempts=5):
     bool: True if image was found, False otherwise
     """
     for attempt in range(max_attempts):
-        location = pyautogui.locateOnScreen(image)  # Try to locate the image on screen
+        location = pyautogui.locateOnScreen(config.IMAGE_PATHS[image])  # Try to locate the image on screen
         if location is not None:
-            pyautogui.moveTo(location[0] + x_shift, location[1] + y_shift, duration=0.5)  # Move to image location with offset
+            pyautogui.moveTo(location[0] + config.CLICK_OFFSET_X, location[1] + config.CLICK_OFFSET_Y, duration=0.5)  # Move to image location with offset
             if is_clicked:
                 pyautogui.click()  # Click if required
             return True
         time.sleep(1)  # Wait before next attempt
     print(f"Image '{image}' not found on the screen after {max_attempts} attempts.")
     return False
+
+def get_weather(city):
+    api_key = config.WEATHER_API_KEY  # Replace with your OpenWeatherMap API key
+    base_url = "http://api.openweathermap.org/data/2.5/weather"
+    params = {
+        "q": city,
+        "appid": api_key,
+        "units": "metric"
+    }
+
+
+
+
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        return {
+            "min_temp": data["main"]["temp_min"],
+            "max_temp": data["main"]["temp_max"],
+            "pressure": data["main"]["pressure"],
+            "humidity": data["main"]["humidity"],
+            "description": data["weather"][0]["description"]
+        }
+    else:
+        return None
 
 class CommandExecutor:
     """Class for executing various commands."""
@@ -108,7 +139,9 @@ class CommandExecutor:
             return
 
         # Check for various commands and call appropriate methods
-        if "get version" in command:
+        if "get weather of" in command:
+            self._get_weather(command)
+        elif "get version" in command:
             self._perform_fota_action("get version")
         elif "select first application" in command:
             self._perform_fota_action("select first application")
@@ -146,7 +179,7 @@ class CommandExecutor:
 
     def _perform_fota_action(self, action):
         """Perform FOTA (Firmware Over The Air) related actions."""
-        url = "http://127.0.0.1:1880/ui/#!/0?socketid=uz_BXAs80AUcr5bDAAAA"
+        url = config.FOTA_URL
         webbrowser.open_new_tab(url)  # Open FOTA web interface
         time.sleep(2)  # Wait for the page to load
 
@@ -214,6 +247,26 @@ class CommandExecutor:
         self.tts.speak("Goodbye Ali")
         exit()
 
+    def _get_weather(self, command):
+        city = command.replace("get weather of", "").strip()
+        weather_data = get_weather(city)
+        if weather_data:
+            weather_message = (
+                f"Weather in {city} is:\n"
+                f"Min Temperature: {weather_data['min_temp']}°C\n"
+                f"Max Temperature: {weather_data['max_temp']}°C\n"
+                f"Pressure: {weather_data['pressure']} hPa\n"
+                f"Humidity: {weather_data['humidity']}%\n"
+                f"Description: {weather_data['description']}"
+            )
+            print(weather_message)  # Print to console
+            self.tts.speak(weather_message)  # Speak the weather information
+        else:
+            self.tts.speak(f"Sorry, I couldn't get the weather information for {city}")    
+
+        
+
+
 class Alexa:
     """Main class for the Alexa-like assistant."""
     def __init__(self, tts: TextToSpeech, recognizer: SpeechRecognizer, executor: CommandExecutor):
@@ -235,7 +288,7 @@ class Alexa:
 
 def main():
     """Main function to set up and run the Alexa-like assistant."""    
-    pygame.mixer.init() # Initialize pygame mixer for audio playback(pygame is preferred to be used with Windows instead of Playsound)
+    pygame.mixer.init() # Initialize pygame mixer for audio playback
     use_pyttsx3 = True  # When on Windows, it is preferred to make this True. In Linux, make this False
     tts = Pyttsx3TTS() if use_pyttsx3 else GttsTTS()  # Choose TTS engine based on platform
     recognizer = SpeechRecognizer()
