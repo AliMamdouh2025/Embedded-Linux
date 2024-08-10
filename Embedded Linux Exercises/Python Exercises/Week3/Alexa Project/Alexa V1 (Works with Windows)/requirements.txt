@@ -1,0 +1,11 @@
+pyttsx3
+gtts
+SpeechRecognition
+wikipedia-api
+pyautogui
+Pillow
+requests
+pytz
+beautifulsoup4
+lxml
+googletrans==4.0.0-rc1
