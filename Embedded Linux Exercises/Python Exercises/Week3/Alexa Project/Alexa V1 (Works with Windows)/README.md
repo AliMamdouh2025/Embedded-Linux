@@ -71,7 +71,6 @@ The project configuration is managed through the `config.py` file. Below is a br
 - **NETWORK_ANALYSIS_DURATION**: Time in seconds for conducting network analysis.
 - **USE_PYTTSX3**: Toggle between `pyttsx3` (True) and `gTTS` (False) for TTS.
 - **LANGUAGE**: Language code for speech recognition (e.g., 'en-US').
-- **WAKE_WORD**: Voice trigger word to activate the assistant.
 - **WEATHER_API_KEY**: API key for accessing weather data.
 
 ## Usage
