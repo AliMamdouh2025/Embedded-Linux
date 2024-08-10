@@ -7,7 +7,7 @@ This project is designed to integrate and automate various tasks using voice com
 ## Features
 
 - **Integration With FOTA**: Alexa is integrated with FOTA by using voice commands to trigger firmware over-the-air updates through a specified URL.
-- **Voice-Activated Commands**: Control the system using voice commands to execute various automated tasks.
+- **Voice-Activated Commands**: Control diffrent systems using voice commands to execute various automated tasks(like parsing files, openning diffrent applications, search about any topic...etc.).
 - **Wikipedia Integration**: Retrieve information from Wikipedia based on voice queries.
 - **Azan Time Notification**: Receive notifications for prayer times based on a specified city and country.
 - **Network Analysis**: Perform network traffic analysis for a defined duration.
