@@ -1,10 +1,25 @@
 # config.py
 
-# OpenWeatherMap API key
-WEATHER_API_KEY = "57c6ac6b1b8ea0c01781254bb7d85cd0"
+# Wikipedia language setting
+WIKIPEDIA_LANG = "en"
+
+# Translation settings
+TRANSLATE_FROM = "de"  # Default source language (German)
+TRANSLATE_TO = "en"    # Default destination language (English)
+
+# Screenshot directory
+SCREENSHOT_DIR = "Screenshot"
+
+# Azan time settings
+AZAN_CITY = "Giza"
+AZAN_COUNTRY = "Egypt"
+
+# Network analysis settings
+NETWORK_ANALYSIS_DURATION = 10  # Duration in seconds for network analysis
+
 
 # FOTA URL
-FOTA_URL = "http://127.0.0.1:1880/ui/#!/0?socketid=Wj6YVNPiIRVuwailAAAA"
+FOTA_URL = "http://127.0.0.1:1880/ui/#!/0?socketid=QY74zGkuBidAtfaRAAAA" # "Put Your real Link here"
 
 # Text-to-Speech settings
 USE_PYTTSX3 = True  # Set to False to use gTTS instead
@@ -28,7 +43,10 @@ IMAGE_PATHS = {
     "select_ecu_slave": "Select_ECU_Slave.png"
 }
 
-# GUI automation settings
-CLICK_OFFSET_X = 20
-CLICK_OFFSET_Y = 20
+# pyautogui automation settings
+CLICK_OFFSET_X = 5
+CLICK_OFFSET_Y = 5
 MAX_ATTEMPTS = 5
+
+# OpenWeatherMap API key
+WEATHER_API_KEY = "57c6ac6b1b8ea0c01781254bb7d85cd0"  # "Put your real API here"
