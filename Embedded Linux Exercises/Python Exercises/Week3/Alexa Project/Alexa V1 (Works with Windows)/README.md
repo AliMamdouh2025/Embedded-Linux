@@ -28,20 +28,13 @@ Before you begin, ensure you have the following installed:
 
 ### Installation
 
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/yourusername/alexa-automation.git
-   cd alexa-automation
-   ```
-
-2. **Install the required packages:**
+ 1. **Install the required packages:**
 
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Configuration:**
+2. **Configuration:**
 
    Edit the `config.py` file to customize the project settings:
    
@@ -52,7 +45,7 @@ Before you begin, ensure you have the following installed:
    - Choose between `pyttsx3` and `gTTS` for text-to-speech.
    - Set the language for speech recognition.
 
-5. **Run the Project:**
+3. **Run the Project:**
 
    Start the main script to activate the Alexa automation:
 
