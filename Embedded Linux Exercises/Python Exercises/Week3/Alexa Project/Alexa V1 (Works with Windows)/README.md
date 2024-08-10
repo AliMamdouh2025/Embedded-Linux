@@ -9,7 +9,6 @@ This project is designed to integrate and automate various tasks using voice com
 - **Integration With FOTA**: Alexa is integrated with FOTA by using voice commands to trigger firmware over-the-air updates through a specified URL.
 - **Voice-Activated Commands**: Control the system using voice commands to execute various automated tasks.
 - **Wikipedia Integration**: Retrieve information from Wikipedia based on voice queries.
-- **Translation**: Translate text from one language to another using a customizable source and destination language.
 - **Azan Time Notification**: Receive notifications for prayer times based on a specified city and country.
 - **Network Analysis**: Perform network traffic analysis for a defined duration.
 - **Text-to-Speech**: Convert text to speech using either `pyttsx3` or `gTTS` based on user preference.
