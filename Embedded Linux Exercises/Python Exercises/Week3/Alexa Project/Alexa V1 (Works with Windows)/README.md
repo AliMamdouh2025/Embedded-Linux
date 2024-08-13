@@ -80,5 +80,8 @@ The project configuration is managed through the `config.py` file. Below is a br
 - **API Key Errors**: Double-check that your API keys (e.g., OpenWeatherMap) are correctly entered in `config.py`.
 - **GUI Automation Failures**: Ensure the images in `IMAGE_PATHS` match the actual elements on your screen.
 
+## LinkedIn Post
+https://www.linkedin.com/feed/update/urn:li:activity:7228684741611290624/
+
 ## For more clarification about our FOTA project go to this link
 https://github.com/ShehabAldeenMo/Fireware-Over-The-Air
