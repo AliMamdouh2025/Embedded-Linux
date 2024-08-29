@@ -104,7 +104,8 @@ Manipulators in C++ are used to modify the formatting of the input/output stream
 #include <iostream>
 #include <iomanip>
 
-int main() {
+int main()
+{
     int num = 255;
     
     std::cout << "Hexadecimal: " << std::hex << num << std::endl; // Outputs in hexadecimal
