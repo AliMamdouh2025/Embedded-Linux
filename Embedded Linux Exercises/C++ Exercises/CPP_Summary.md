@@ -421,7 +421,7 @@ This call uses the second overloaded function, passing pinNumber and direction (
 
 Here's an enhanced explanation of function overloading in C++ with practical examples that can be especially useful in embedded Linux programming.
 
-### **Function Overloading in C++**
+## **Function Overloading in C++**
 
 Function overloading allows you to define multiple functions with the same name but different parameter lists. This is particularly useful when you want to perform similar operations on different types of data. The C++ compiler determines which function to call based on the arguments you provide.
 
@@ -501,43 +501,49 @@ I2C (Inter-Integrated Circuit) is a protocol commonly used in embedded systems t
 #include <iostream>
 
 // Overload for reading a single byte from an I2C device
-void readI2C(int deviceAddress, int registerAddress) {
+void readI2C(int deviceAddress, int registerAddress)
+{
     std::cout << "Reading from device " << deviceAddress 
               << ", register " << registerAddress << std::endl;
     // Hardware-specific code to perform I2C read
 }
 
 // Overload for reading multiple bytes from an I2C device
-void readI2C(int deviceAddress, int registerAddress, int numBytes) {
+void readI2C(int deviceAddress, int registerAddress, int numBytes)
+{
     std::cout << "Reading " << numBytes << " bytes from device " 
               << deviceAddress << ", register " << registerAddress << std::endl;
     // Hardware-specific code to perform I2C read
 }
 
-int main() {
+int main()
+{
     readI2C(0x48, 0x01);          // Read a single byte
     readI2C(0x48, 0x02, 4);       // Read 4 bytes
     return 0;
 }
 ```
 
-### **Ambiguous Function Calls**
+## **Ambiguous Function Calls**
 Function overloading can sometimes lead to ambiguous function calls if the compiler cannot determine which function to use. Consider the following:
 
 ```cpp
 #include <iostream>
 
 // Overload with int and default int parameter
-void fun(int x, int y = 3) {
+void fun(int x, int y = 3)
+{
     std::cout << x << " " << y << std::endl;
 }
 
 // Overload with int and default float parameter
-void fun(int x, float y = 3.0f) {
+void fun(int x, float y = 3.0f)
+{
     std::cout << x << " " << y << std::endl;
 }
 
-int main() {
+int main()
+{
     fun(2);  // Ambiguous call: the compiler cannot decide which overload to use
     return 0;
 }
@@ -545,7 +551,7 @@ int main() {
 
 This code results in a compilation error because the call to `fun(2)` matches both overloads (`int` with `int` or `float` default). To resolve such ambiguities, you can explicitly specify the argument type, or adjust your overloads to be more distinct.
 
-### **Name Mangling**
+## **Name Mangling**
 
 C++ allows function overloading by using **name mangling**, a process where the compiler generates unique names for each function based on its parameters. This ensures that even though the functions have the same name in your source code, they have distinct names in the compiled binary.
 
