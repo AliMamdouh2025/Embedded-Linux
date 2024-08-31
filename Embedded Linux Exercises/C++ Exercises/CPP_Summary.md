@@ -2,7 +2,7 @@
 - This document provides an overview of C++ features with practical examples relevant to embedded Linux programming.
 
 
-## C++ Input & Output
+# C++ Input & Output
 - C++ provides a streamlined way to handle input and output operations through the standard library.
 
 ### Basic Example:
@@ -94,7 +94,7 @@ int main()
 }
 ```
 
-## C++ Manipulators
+# C++ Manipulators
 
 Manipulators in C++ are used to modify the formatting of the input/output streams. This is particularly useful when dealing with different data representations, such as hexadecimal or binary, which are common in embedded programming.
 
@@ -176,7 +176,7 @@ int main()
 ```
 
 
-## C++ Operators
+# C++ Operators
 
 C++ operators are largely the same as in C, including arithmetic, logical, and bitwise operators. However, C++ introduces additional operators, like the scope resolution operator (`::`), which is essential in object-oriented programming.
 
@@ -244,7 +244,7 @@ int main()
 
 
 
-## C++ Loops
+# C++ Loops
 
 C++ supports all the traditional loops from C (`for`, `while`, `do-while`) but adds a range-based `for` loop that simplifies iteration over collections like arrays or vectors.
 
@@ -271,11 +271,11 @@ int main()
 
 
 
-## C++ Functions
+# C++ Functions
 
 Functions in C++ work similarly to C. Here’s a deeper look into C++ functions, with practical examples that might be useful for embedded systems programming.
 
-#### **Basic Function Declaration and Definition**
+## **Basic Function Declaration and Definition**
 In C++, functions are declared and defined much like in C. However, C++ allows for default parameters, which can simplify function calls and reduce redundancy in code.
 
 **Basic Function Example:**
@@ -297,7 +297,7 @@ int main() {
 - The function `printMessage` can be called with or without an argument. If no argument is provided, it uses the default value `"Hello, World!"`.
 - This feature is particularly useful in embedded systems where you might want to have default configurations or debug messages that can be overridden as needed.
 
-#### **Handling Default Parameters**
+## **Handling Default Parameters**
 One important rule when using default parameters in C++ is that once a default parameter is specified, all subsequent parameters must also have default values.
 
 **Incorrect Code:**
@@ -342,7 +342,7 @@ int main()
 **Explanation:**
 - Here, the function `fun` can be called with just one argument (`y`), and `x` will default to `2`. This avoids ambiguity and ensures that the function works as intended.
 
-#### **Practical Embedded Linux Examples**
+### **Practical Embedded Linux Examples**
 When working with embedded systems, functions with default parameters can be quite powerful. They allow for more readable code and can help in managing hardware configurations.
 
 **Example: Configurable GPIO Setup**
@@ -372,7 +372,7 @@ int main()
 - `configureGPIO` can be called with just a pin number, and it will use default values (`direction = "out"` and `value = 0`).
 - This flexibility allows you to easily manage GPIO configurations without repeatedly specifying common settings.
 
-#### **Default Parameters and Overloading**
+## **Default Parameters and Overloading**
 Default parameters can also be combined with function overloading to create even more flexible and powerful interfaces.
 
 **Example: Overloaded GPIO Setup**
