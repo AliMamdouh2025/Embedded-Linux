@@ -404,8 +404,17 @@ int main()
 }
 ```
 **Explanation:**
-- Here, the `configureGPIO` function is overloaded to handle cases where the direction is "in", and no value parameter is needed.
-- This allows for even greater flexibility, depending on the specific requirements of the embedded application.
+- First Call: configureGPIO(17, "out", 1);
 
-### **Conclusion**
-Understanding and leveraging C++ functions, especially with default parameters and overloading, can significantly simplify and enhance the development of embedded Linux applications. By using these techniques, you can write more maintainable, readable, and adaptable code, tailored to the unique demands of embedded systems.
+This call uses the first overloaded function, passing all three arguments (pinNumber, direction, 
+and value). It configures GPIO pin 17 as an output and sets it to high (1).
+
+- Second Call: configureGPIO(18);
+
+This call uses the second overloaded function. It only passes pinNumber, relying on the default value of "in" for direction. It configures GPIO pin 18 as an input.
+
+- Third Call: configureGPIO(22, "out");
+
+This call uses the second overloaded function, passing pinNumber and direction ("out"). Since no value is provided, this assumes a default operation (which could be low or as configured elsewhere in a real system).
+
+
