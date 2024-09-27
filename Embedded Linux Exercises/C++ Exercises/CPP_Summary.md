@@ -580,3 +580,114 @@ You can view and demangle these names using tools like `c++filt`:
 This command will return the original function signature.
 
 
+
+
+## Threads in Embedded Linux
+
+In an embedded Linux environment, applications often use threading to perform tasks concurrently, such as handling hardware communication while also maintaining a responsive user interface. Threads enable parallel execution, improving system performance and responsiveness.
+
+#### Example with Threads
+
+```cpp
+#include <thread>
+#include <iostream>
+
+void fun()
+{
+    std::cout << "Hello World" << std::endl;
+}
+
+int main()
+{
+    std::thread t(fun);  // Start a thread t to run the fun() function
+    return 0;
+}
+```
+
+#### What Happens Here?
+- **Main Thread Exits First**: The program starts the thread `t` to run the `fun` function. However, the main thread (which started the program) terminates immediately after starting the thread. The thread `t` may still be running, but once the main thread exits, the entire program terminates, potentially before the thread has completed.
+  
+- **Embedded Linux Example**: Consider an embedded system where you launch a thread to blink an LED. If the main thread exits too soon, the LED may never blink, causing unexpected behavior.
+
+- **Core Dump (Crash)**: When the main thread exits, the operating system may forcibly terminate any running threads, which can result in a core dump (i.e., program crash).
+
+#### Solution: `join`
+
+To prevent premature termination of the program, we can use `join`, which ensures that the main thread waits for the thread `t` to finish its task.
+
+```cpp
+int main() {
+    std::thread t(fun);  // Start thread t
+    t.join();  // Main thread waits for thread t to finish
+    return 0;
+}
+```
+
+- **Blocking Call**: `t.join()` is a blocking call, meaning the main thread will stop and wait for the thread `t` to complete execution. In embedded systems, this ensures that critical tasks, like sensor data processing or hardware initialization, are completed before the program exits.
+
+#### Embedded Linux Example:
+In an embedded system, you might create a thread for reading sensor data from a GPIO pin. The main thread will wait (block) for the sensor-reading thread to finish its task before terminating the program, ensuring that no data is missed or partially processed.
+
+```cpp
+#include <thread>
+#include <iostream>
+#include <unistd.h>
+
+void readSensor() {
+    sleep(2);  // Simulate sensor reading delay
+    std::cout << "Sensor data read" << std::endl;
+}
+
+int main() {
+    std::thread sensorThread(readSensor);
+    sensorThread.join();  // Wait for sensorThread to complete
+    std::cout << "Main thread: Sensor data processing complete" << std::endl;
+    return 0;
+}
+```
+
+### Detaching a Thread: `detach`
+
+In some cases, you may want the thread to run independently without waiting for it to finish. This is where `detach` comes in.
+
+```cpp
+int main() {
+    std::thread t(fun);  // Start thread t
+    t.detach();  // Allow thread t to run independently
+    return 0;
+}
+```
+
+- **Non-blocking**: Once a thread is detached, the main thread will continue its execution without waiting for the detached thread. The detached thread runs independently, and you lose control over it—no way to know when it finishes or if it finishes.
+
+- **Risk**: In an embedded Linux system, if the main thread exits too soon, the detached thread may not have enough time to complete its work. For example, if the main thread terminates while a thread is writing to a log file, the log might be incomplete.
+
+#### Embedded Linux Example:
+Consider an application in an embedded system where you want to log some debug data to a file in the background while the main thread continues to process other tasks.
+
+```cpp
+#include <thread>
+#include <iostream>
+#include <fstream>
+#include <unistd.h>
+
+void logData()
+{
+    sleep(1);  // Simulate time-consuming logging
+    std::ofstream logfile("log.txt", std::ios::app);
+    logfile << "Logging sensor data...\n";
+    logfile.close();
+    std::cout << "Log complete" << std::endl;
+}
+
+int main()
+{
+    std::thread logThread(logData);
+    logThread.detach();  // Allow logging to run in the background
+    std::cout << "Main thread continues without waiting for log" << std::endl;
+    return 0;
+}
+```
+
+- **Outcome**: The main thread will not wait for the logging to finish. The output of the program may differ depending on the timing, and sometimes the program might terminate before the logging is done.
+
