@@ -582,6 +582,164 @@ This command will return the original function signature.
 
 
 
+## Arrays in Modern C++
+In modern C++, arrays are an essential tool for handling collections of elements. The traditional C-style arrays (`int arr[5]`) remain available but are complemented by safer and more flexible alternatives like `std::array` and `std::vector` from the Standard Template Library (STL).
+
+#### **Modern C++: `std::array`**
+- Safer and more feature-rich alternative to C-style arrays.
+- Compile-time fixed size.
+- Provides bounds checking with `.at()` and integrates seamlessly with STL algorithms.
+
+1. **Declaration and Initialization**:
+   ```cpp
+   std::array<int, 6> numbers = {2, 4, 8, 12, 16, 18};
+   ```
+2. **Accessing Elements**:
+   - **With Indices**:
+     ```cpp
+     for (size_t i = 0; i < numbers.size(); ++i) {
+         std::cout << numbers[i] << " ";
+     }
+     ```
+   - **With Range-Based Loop**:
+     ```cpp
+     for (int value : numbers) {
+         std::cout << value << " ";
+     }
+     ```
+   - **Safe Access**:
+     ```cpp
+     std::cout << numbers.at(3); // Bounds-checked access
+     ```
+
+---
+
+#### **Dynamic Arrays: `std::vector`**
+- For variable-sized collections.
+- Handles memory allocation and resizing automatically.
+1. **Declaration and Initialization**:
+   ```cpp
+   std::vector<int> numbers = {2, 4, 8, 12, 16, 18};
+   numbers.push_back(20); // Add a new element
+   ```
+2. **Accessing Elements**:
+   - Similar to `std::array`.
+
+---
+
+### Example: Arrays in Adaptive AUTOSAR
+Let’s simulate a scenario in **Adaptive AUTOSAR** where an array is used to manage diagnostic event IDs.
+
+---
+
+#### Scenario:
+- A `std::array` holds predefined diagnostic event IDs (fixed size).
+- A `std::vector` dynamically stores active diagnostic events.
+- Use range-based loops for processing.
+
+---
+
+#### Code Implementation
+```cpp
+#include <iostream>
+#include <array>
+#include <vector>
+#include <string>
+
+// Diagnostic Event Manager Simulation
+class DiagnosticEventManager
+{
+private:
+    // Fixed set of predefined diagnostic event IDs
+    std::array<int, 5> predefinedEvents = {1001, 1002, 1003, 1004, 1005};
+    // Active diagnostic events (dynamic size)
+    std::vector<int> activeEvents;
+
+public:
+    // Initialize active events with some IDs
+    void initializeActiveEvents()
+    {
+        activeEvents.push_back(1001);
+        activeEvents.push_back(1004);
+    }
+
+    // Print predefined events
+    void displayPredefinedEvents() const
+    {
+        std::cout << "Predefined Diagnostic Events:\n";
+        for (const auto& event : predefinedEvents)
+        {
+            std::cout << "Event ID: " << event << "\n";
+        }
+     }
+
+    // Print active events
+    void displayActiveEvents() const
+   {
+        std::cout << "Active Diagnostic Events:\n";
+        for (const auto& event : activeEvents)
+        {
+            std::cout << "Event ID: " << event << "\n";
+        }
+    }
+
+    // Check if an event is active
+    bool isEventActive(int eventID) const
+   {
+        for (const auto& event : activeEvents)
+        {
+            if (event == eventID)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Activate a new event
+    void activateEvent(int eventID)
+   {
+        if (!isEventActive(eventID))
+       {
+            activeEvents.push_back(eventID);
+            std::cout << "Activated Event ID: " << eventID << "\n";
+        } else
+        {
+            std::cout << "Event ID: " << eventID << " is already active.\n";
+        }
+    }
+};
+
+int main()
+{
+    DiagnosticEventManager dem;
+
+    // Initialize and display events
+    dem.initializeActiveEvents();
+    dem.displayPredefinedEvents();
+    dem.displayActiveEvents();
+
+    // Activate new events
+    dem.activateEvent(1002);
+    dem.activateEvent(1004); // Duplicate activation
+
+    // Display updated active events
+    dem.displayActiveEvents();
+
+    return 0;
+}
+```
+
+---
+
+### Concepts Demonstrated:
+1. **`std::array`**: Stores fixed-size predefined diagnostic events.
+2. **`std::vector`**: Handles active diagnostic events dynamically.
+3. **Range-Based Loops**: Iterates through both arrays and vectors.
+4. **Encapsulation**: Diagnostic event management is encapsulated in a class.
+5. **Dynamic Behavior**: Activates and deactivates events dynamically, mimicking real-world Adaptive AUTOSAR systems.
+
+
 ## Threads in Embedded Linux
 
 In an embedded Linux environment, applications often use threading to perform tasks concurrently, such as handling hardware communication while also maintaining a responsive user interface. Threads enable parallel execution, improving system performance and responsiveness.
@@ -616,7 +774,8 @@ int main()
 To prevent premature termination of the program, we can use `join`, which ensures that the main thread waits for the thread `t` to finish its task.
 
 ```cpp
-int main() {
+int main()
+{
     std::thread t(fun);  // Start thread t
     t.join();  // Main thread waits for thread t to finish
     return 0;
@@ -633,12 +792,14 @@ In an embedded system, you might create a thread for reading sensor data from a 
 #include <iostream>
 #include <unistd.h>
 
-void readSensor() {
+void readSensor()
+{
     sleep(2);  // Simulate sensor reading delay
     std::cout << "Sensor data read" << std::endl;
 }
 
-int main() {
+int main()
+{
     std::thread sensorThread(readSensor);
     sensorThread.join();  // Wait for sensorThread to complete
     std::cout << "Main thread: Sensor data processing complete" << std::endl;
@@ -651,7 +812,8 @@ int main() {
 In some cases, you may want the thread to run independently without waiting for it to finish. This is where `detach` comes in.
 
 ```cpp
-int main() {
+int main()
+{
     std::thread t(fun);  // Start thread t
     t.detach();  // Allow thread t to run independently
     return 0;
