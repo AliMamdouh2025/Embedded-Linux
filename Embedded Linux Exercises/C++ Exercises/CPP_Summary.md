@@ -2,7 +2,7 @@
 - This document provides an overview of C++ features with practical examples relevant to embedded Linux programming.
 
 
-# C++ Input & Output
+## C++ Input & Output
 - C++ provides a streamlined way to handle input and output operations through the standard library.
 
 ### Basic Example:
@@ -94,7 +94,7 @@ int main()
 }
 ```
 
-# C++ Manipulators
+## C++ Manipulators
 
 Manipulators in C++ are used to modify the formatting of the input/output streams. This is particularly useful when dealing with different data representations, such as hexadecimal or binary, which are common in embedded programming.
 
@@ -176,7 +176,7 @@ int main()
 ```
 
 
-# C++ Operators
+## C++ Operators
 
 C++ operators are largely the same as in C, including arithmetic, logical, and bitwise operators. However, C++ introduces additional operators, like the scope resolution operator (`::`), which is essential in object-oriented programming.
 
@@ -244,7 +244,7 @@ int main()
 
 
 
-# C++ Loops
+## C++ Loops
 
 C++ supports all the traditional loops from C (`for`, `while`, `do-while`) but adds a range-based `for` loop that simplifies iteration over collections like arrays or vectors.
 
@@ -271,7 +271,7 @@ int main()
 
 
 
-# C++ Functions
+## C++ Functions
 
 Functions in C++ work similarly to C. Here’s a deeper look into C++ functions, with practical examples that might be useful for embedded systems programming.
 
@@ -597,13 +597,15 @@ In modern C++, arrays are an essential tool for handling collections of elements
 2. **Accessing Elements**:
    - **With Indices**:
      ```cpp
-     for (size_t i = 0; i < numbers.size(); ++i) {
+     for (size_t i = 0; i < numbers.size(); ++i)
+     {
          std::cout << numbers[i] << " ";
      }
      ```
    - **With Range-Based Loop**:
      ```cpp
-     for (int value : numbers) {
+     for (int value : numbers)
+     {
          std::cout << value << " ";
      }
      ```
@@ -732,12 +734,6 @@ int main()
 
 ---
 
-### Concepts Demonstrated:
-1. **`std::array`**: Stores fixed-size predefined diagnostic events.
-2. **`std::vector`**: Handles active diagnostic events dynamically.
-3. **Range-Based Loops**: Iterates through both arrays and vectors.
-4. **Encapsulation**: Diagnostic event management is encapsulated in a class.
-5. **Dynamic Behavior**: Activates and deactivates events dynamically, mimicking real-world Adaptive AUTOSAR systems.
 
 
 ## Threads in Embedded Linux
